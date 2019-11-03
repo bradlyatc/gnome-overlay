@@ -1,3 +1,4 @@
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -10,7 +11,9 @@ HOMEPAGE="https://git.gnome.org/browse/gdk-pixbuf"
 LICENSE="LGPL-2+"
 SLOT="2"
 KEYWORDS="*"
-IUSE="X doc +introspection jpeg jpeg2k tiff test"
+IUSE="X docs +introspection jpeg jpeg2k tiff test"
+
+RESTRICT="mirror"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.48.0:2
@@ -39,10 +42,8 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 PATCHES=(
-	# Do not run lowmem test on uclibc
 	# See https://bugzilla.gnome.org/show_bug.cgi?id=756590
 	"${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
-
 )
 
 src_configure() {
@@ -52,13 +53,14 @@ src_configure() {
 		-Dman=true
 		-Dbuiltin_loaders=none
 		-Dgir=true
-		$(meson_use tiff tiff)
-		$(meson_use jpeg jpeg)
+		$(meson_use jpeg)
 		$(meson_use jpeg2k jasper)
+		$(meson_use tiff)
 		$(meson_use X x11)
-		$(meson_use doc docs)
+		$(meson_use docs)
 		$(meson_use test installed_tests)
 	)
+
 	meson_src_configure
 }
 
@@ -72,13 +74,14 @@ src_install() {
 pkg_preinst() {
 	gnome2_pkg_preinst
 
-	local cache="usr/$(get_libdir)/${PN}-2.0/2.10.0/loaders.cache"
+    # Make sure loaders.cache belongs to gdk-pixbuf alone
+    local cache="usr/$(get_libdir)/${PN}-2.0/2.10.0/loaders.cache"
 
-	if [[ -e ${EROOT}${cache} ]]; then
-		cp "${EROOT}"${cache} "${ED}"/${cache} || die
-	else
-		touch "${ED}"/${cache} || die
-	fi
+    if [[ -e ${EROOT}${cache} ]]; then
+        cp "${EROOT}"${cache} "${ED}"/${cache} || die
+    else
+        touch "${ED}"/${cache} || die
+    fi
 }
 
 pkg_postinst() {

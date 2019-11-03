@@ -32,7 +32,7 @@ RDEPEND="${COMMON_DEPEND}
 	!<dev-cpp/gtkmm-2.13:2.4
 "
 
-#PATCHES=( "${FILESDIR}/${P}-glibmm-2.62.patch" )
+PATCHES=( "${FILESDIR}/${P}-glibmm-2.62.patch" )
 
 pkg_setup() {
 	export CFLAGS="-std=c++17 $CFLAGS"

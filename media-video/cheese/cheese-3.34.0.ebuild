@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-VALA_MIN_API_VERSION="0.26"
 
-inherit gnome2 vala meson virtualx
+inherit gnome2 vala virtualx meson
 
 DESCRIPTION="A cheesy program to take pictures and videos from your webcam"
 HOMEPAGE="https://wiki.gnome.org/Apps/Cheese"
@@ -12,10 +11,10 @@ LICENSE="GPL-2+"
 SLOT="0/8" # subslot = libcheese soname version
 KEYWORDS="*"
 
-IUSE="+introspection docs test"
+IUSE="+introspection test"
 
 COMMON_DEPEND="
-	>=dev-libs/glib-2.39.90:2
+	>=dev-libs/glib-2.59.90:2
 	>=x11-libs/gtk+-3.13.4:3[introspection?]
 	>=gnome-base/gnome-desktop-2.91.6:3=
 	>=media-libs/libcanberra-0.26[gtk3]
@@ -64,28 +63,24 @@ src_prepare() {
 }
 
 src_configure() {
-	# Prevent sandbox violations when we need write access to
-	# /dev/dri/card* in its init phase, bug #358755
+	# work around sandbox violation
 	for card in /dev/dri/card* ; do
 		addpredict "${card}"
 	done
 
-	# Prevent sandbox violations when we need write access to
-	# /dev/dri/render* in its init phase, bug #358755
 	for render in /dev/dri/render* ; do
 		addpredict "${render}"
 	done
 
 	local emesonargs=(
-		$(meson_use test tests)
 		$(meson_use introspection)
-		$(meson_use docs gtk_doc)
-		-D man=false
+		$(meson_use test tests)
 	)
+
 	meson_src_configure
 }
 
 src_test() {
 	"${EROOT}${GLIB_COMPILE_SCHEMAS}" --allow-any-name "${S}/data" || die
-	GSETTINGS_SCHEMA_DIR="${S}/data" virtx meson_src_test
+	GSETTINGS_SCHEMA_DIR="${S}/data" virtx emake check
 }

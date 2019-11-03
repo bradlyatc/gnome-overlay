@@ -10,7 +10,7 @@ HOMEPAGE="https://git.gnome.org/browse/sushi"
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="office wayland"
+IUSE="office"
 
 COMMON_DEPEND="
 	>=x11-libs/gdk-pixbuf-2.23[introspection]
@@ -42,10 +42,6 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
-	if ! use wayland; then
-		eapply "${FILESDIR}"/gdk-wayland-fix.patch
-	fi
-
 	sed -i -e "s/meson.add_install_script('meson-post-install.py', libexecdir, bindir)//" "${S}"/meson.build || die "sed failed"
 	default
 }

@@ -9,33 +9,18 @@ HOMEPAGE="https://git.gnome.org/browse/gsettings-desktop-schemas"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-IUSE="+introspection"
+IUSE=""
 KEYWORDS="*"
 
 RDEPEND="
-	>=dev-libs/glib-2.31:2
-	introspection? ( >=dev-libs/gobject-introspection-1.31.0:= )
-	media-fonts/source-pro
+	>=dev-libs/glib-2.58:2
 	!<gnome-base/gdm-3.8
+	media-fonts/source-pro
 "
 DEPEND="${RDEPEND}
 	>=dev-util/intltool-0.50.1
 	sys-devel/gettext
 	virtual/pkgconfig
+	dev-libs/gobject-introspection:=
 "
 
-src_prepare() {
-
-	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/commit/965062de47f5171727c1e4f7f0aac2ad40e3484a
-	eapply -R "${FILESDIR}"/${PN}-3.31.90-schemas-change-default-monospaced-and-document-fonts.patch
-
-	gnome2_src_prepare
-}
-
-src_configure() {
-	local emesonargs=(
-		$(meson_use introspection)
-	)
-	meson_src_configure
-}
