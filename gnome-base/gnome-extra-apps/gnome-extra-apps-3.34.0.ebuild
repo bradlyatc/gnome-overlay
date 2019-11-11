@@ -11,7 +11,7 @@ SLOT="3.0"
 # double check none of the deps are still masked !
 KEYWORDS="*"
 
-IUSE="+bijiben boxes builder empathy epiphany +evolution flashback +fonts +games geary gnote +recipes +share +shotwell simple-scan +todo +tracker"
+IUSE="+bijiben boxes builder california empathy epiphany +evolution flashback +fonts +games geary gnote latexila +recipes +share +shotwell simple-scan +todo +tracker"
 
 # Note to developers:
 #
