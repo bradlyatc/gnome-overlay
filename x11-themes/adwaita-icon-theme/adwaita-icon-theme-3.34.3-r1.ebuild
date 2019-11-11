@@ -7,7 +7,8 @@ inherit gnome.org xdg xdg-utils
 DESCRIPTION="GNOME default icon theme"
 HOMEPAGE="https://git.gnome.org/browse/adwaita-icon-theme/"
 
-SRC_URI="branding? ( https://www.mail-archive.com/tango-artists@lists.freedesktop.org/msg00043/tango-gentoo-v1.1.tar.gz )"
+SRC_URI="${SRC_URI}
+	branding? ( https://www.mail-archive.com/tango-artists@lists.freedesktop.org/msg00043/tango-gentoo-v1.1.tar.gz )"
 LICENSE="
 	|| ( LGPL-3 CC-BY-SA-3.0 )
 	branding? ( CC-Sampling-Plus-1.0 )
@@ -48,6 +49,7 @@ src_prepare() {
 	xdg_src_prepare
 }
 
-src_configure() {
-	xdg_src_configure XDG_UPDATE_ICON_CACHE=$(type -P true)
+pkg_postinst() {
+	xdg_pkg_postinst
+	XDG_UPDATE_ICON_CACHE=$(type -P true)
 }
