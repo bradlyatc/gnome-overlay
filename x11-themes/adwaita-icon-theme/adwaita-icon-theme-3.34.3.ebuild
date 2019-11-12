@@ -1,13 +1,15 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="6"
 
-inherit gnome.org xdg xdg-utils
+inherit gnome2
 
 DESCRIPTION="GNOME default icon theme"
 HOMEPAGE="https://git.gnome.org/browse/adwaita-icon-theme/"
 
-SRC_URI="branding? ( https://www.mail-archive.com/tango-artists@lists.freedesktop.org/msg00043/tango-gentoo-v1.1.tar.gz )"
+SRC_URI="${SRC_URI}
+	branding? ( https://www.mail-archive.com/tango-artists@lists.freedesktop.org/msg00043/tango-gentoo-v1.1.tar.gz )
+"
 LICENSE="
 	|| ( LGPL-3 CC-BY-SA-3.0 )
 	branding? ( CC-Sampling-Plus-1.0 )
@@ -45,9 +47,9 @@ src_prepare() {
 		-i "${S}"/Makefile.am \
 		-i "${S}"/Makefile.in || die
 
-	xdg_src_prepare
+	gnome2_src_prepare
 }
 
 src_configure() {
-	xdg_src_configure XDG_UPDATE_ICON_CACHE=$(type -P true)
+	gnome2_src_configure GTK_UPDATE_ICON_CACHE=$(type -P true)
 }
