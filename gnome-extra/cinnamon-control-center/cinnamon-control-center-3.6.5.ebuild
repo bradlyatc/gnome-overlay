@@ -22,7 +22,7 @@ QA_CONFIGURE_OPTIONS=".*"
 #        networkmanager is not optional
 
 COMMON_DEPEND="
-	>=dev-libs/glib-2.31:2
+	>=dev-libs/glib-2.62.2:2
 	dev-libs/libxml2:2
 	>=gnome-base/libgnomekbd-2.91.91:0=
 	>=gnome-extra/cinnamon-desktop-1.0:0=
@@ -33,7 +33,7 @@ COMMON_DEPEND="
 	>=net-misc/modemmanager-0.7
 	>=net-misc/networkmanager-0.9.8:=[modemmanager]
 	>=sys-auth/polkit-0.103
-	>=x11-libs/gdk-pixbuf-2.23.0:2
+	>=x11-libs/gdk-pixbuf-2.39.2:2
 	>=x11-libs/gtk+-3.24.12:3
 	>=x11-libs/libnotify-0.7.3:0=
 	x11-libs/libX11

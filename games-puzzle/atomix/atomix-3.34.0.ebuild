@@ -13,8 +13,8 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	>=dev-libs/glib-2.36:2
-	>=x11-libs/gdk-pixbuf-2.0.5:2
+	>=dev-libs/glib-2.62.2:2
+	>=x11-libs/gdk-pixbuf-2.39.2:2
 	>=x11-libs/gtk+-3.24.12:3
 	dev-libs/libgnome-games-support
 "

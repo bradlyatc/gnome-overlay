@@ -15,12 +15,12 @@ KEYWORDS="*"
 IUSE="+introspection tools vala"
 
 RDEPEND="
-	>=dev-libs/glib-2.34.3:2
-	>=x11-libs/cairo-1.12.14-r4
-	>=x11-libs/pango-1.36.3
-	>=dev-libs/libxml2-2.9.1-r4:2
-	>=dev-libs/libcroco-0.6.8-r1
-	>=x11-libs/gdk-pixbuf-2.30.7:2[introspection?]
+	>=dev-libs/glib-2.62.2:2
+	>=x11-libs/cairo-1.16.0
+	>=x11-libs/pango-1.44.7
+	>=dev-libs/libxml2-2.9.1:2
+	>=dev-libs/libcroco-0.6.8
+	>=x11-libs/gdk-pixbuf-2.39.2:2[introspection?]
 	>=virtual/rust-1.34
 	introspection? ( >=dev-libs/gobject-introspection-0.10.8:= )
 "

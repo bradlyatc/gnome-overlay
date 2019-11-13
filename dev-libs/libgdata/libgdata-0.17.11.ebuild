@@ -25,7 +25,7 @@ REQUIRED_USE="
 KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 
 RDEPEND="
-	>=dev-libs/glib-2.44.0:2
+	>=dev-libs/glib-2.62.2:2
 	>=dev-libs/json-glib-1[introspection?]
 	>=dev-libs/libxml2-2:2
 	>=net-libs/liboauth-0.9.4
@@ -42,7 +42,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	gtk-doc? ( dev-util/gtk-doc )
 	test? ( >=net-libs/uhttpmock-0.5
-		>=x11-libs/gdk-pixbuf-2.14:2 )
+		>=x11-libs/gdk-pixbuf-2.39.2:2 )
 	vala? ( $(vala_depend) )
 "
 
