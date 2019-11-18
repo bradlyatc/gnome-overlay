@@ -4,7 +4,7 @@
 EAPI="7"
 PYTHON_COMPAT=( python3_{5,6,7} )
 
-inherit gnome.org xdg pax-utils python-r1 meson
+inherit gnome.org xdg gnome2-utils pax-utils python-r1 meson
 
 DESCRIPTION="Provides core UI functions for the GNOME 3 desktop"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeShell"
@@ -126,13 +126,15 @@ src_install() {
 	else
 		pax-mark m "${ED}usr/bin/gnome-shell"{,-extension-prefs}
 	fi
+	insinto /usr/share/backgrounds/gnome
+	doins -r ${FILESDIR}/wallpapers/*
 	insinto /usr/share/glib-2.0/schemas
 	doins ${FILESDIR}/funtoo-settings.gschema.override
 }
 
 pkg_postinst() {
 	xdg_pkg_postinst
-
+	gnome2_schemas_update
 	if ! has_version 'media-libs/gst-plugins-good:1.0' || \
 	   ! has_version 'media-plugins/gst-plugins-vpx:1.0'; then
 		ewarn "To make use of GNOME Shell's built-in screen recording utility,"

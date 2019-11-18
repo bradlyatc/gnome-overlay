@@ -1,9 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-VALA_MIN_API_VERSION="0.36"
+EAPI=7
+VALA_MIN_API_VERSION="0.46"
 
-inherit gnome2 meson vala
+inherit gnome.org meson vala xdg gnome2-utils
 
 DESCRIPTION="Graphical tool for editing the dconf configuration database"
 HOMEPAGE="https://git.gnome.org/browse/dconf-editor"
@@ -29,6 +29,16 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
-	default
 	vala_src_prepare
+	xdg_src_prepare
+}
+
+pkg_postinst() {
+	xdg_pkg_postinst
+	gnome2_schemas_update
+}
+
+pkg_postrm() {
+	xdg_pkg_postrm
+	gnome2_schemas_update
 }

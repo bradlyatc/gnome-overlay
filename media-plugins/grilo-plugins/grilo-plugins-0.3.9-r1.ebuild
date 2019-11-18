@@ -5,7 +5,7 @@ EAPI=6
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 
-inherit gnome2 python-any-r1 meson
+inherit gnome.org xdg python-any-r1 meson
 
 DESCRIPTION="A framework for easy media discovery and browsing"
 HOMEPAGE="https://wiki.gnome.org/Projects/Grilo"
@@ -73,10 +73,6 @@ pkg_setup() {
 	use upnp-av && use test && python-any-r1_pkg_setup
 }
 
-src_prepare () {
-	gnome2_src_prepare
-}
-
 # FIXME: some unittests required python-dbusmock
 src_configure() {
 	# --enable-debug only changes CFLAGS, useless for us
@@ -117,10 +113,11 @@ src_install() {
 		doins help/examples/*.c
 	fi
 
-	meson_src_install \
-		DOC_MODULE_VERSION=${SLOT%/*} \
-		HELP_ID="grilo-plugins-${SLOT%/*}" \
+		DOC_MODULE_VERSION=${SLOT%/*}
+		HELP_ID="grilo-plugins-${SLOT%/*}"
 		HELP_MEDIA=""
+
+		meson_src_install
 
 	# The above doesn't work and collides with 0.2 slot
 	mv "${ED}"/usr/share/help/C/examples/example-tmdb{,-0.3}.c || die
