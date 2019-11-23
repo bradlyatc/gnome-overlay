@@ -17,7 +17,7 @@ RDEPEND="
 	>=dev-libs/glib-2.62.2:2
 	>=net-libs/gssdp-0.14.7
 	>=net-libs/gupnp-0.20.10
-	introspection? ( >=dev-libs/gobject-introspection-0.10 )
+	introspection? ( >=dev-libs/gobject-introspection-1.62.0:= )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.10
@@ -28,7 +28,7 @@ DEPEND="${RDEPEND}
 # The only existing test is broken
 RESTRICT="test"
 
-src_configure() {
+multilib_src_configure() {
 	xdg_environment_reset
 
 	# python is old-style bindings; use introspection and pygobject instead
@@ -39,6 +39,5 @@ src_configure() {
 		--disable-python \
 		$(use_enable introspection)
 
-		ln -s "${S}"/doc/html doc/html || die
+	ln -s "${S}"/doc/html doc/html || die
 }
-

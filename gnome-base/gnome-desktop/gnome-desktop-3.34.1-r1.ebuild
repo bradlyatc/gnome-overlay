@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit gnome.org meson
+inherit gnome.org xdg meson
 
 DESCRIPTION="Libraries for the gnome desktop that are not part of the UI"
 HOMEPAGE="https://git.gnome.org/browse/gnome-desktop"
@@ -41,6 +41,9 @@ DEPEND="${COMMON_DEPEND}
 	x11-base/xorg-proto
 	virtual/pkgconfig
 "
+src_prepare() {
+	xdg_src_prepare
+}
 
 src_configure() {
 	local emesonargs=(

@@ -13,13 +13,13 @@ HOMEPAGE="http://www.pygtk.org/"
 
 LICENSE="LGPL-2.1"
 SLOT="2"
-KEYWORDS="*"
+KEYWORDS=""
 IUSE="doc examples -numpy test"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="${PYTHON_DEPS}
 	>=dev-libs/glib-2.62.2:2
-	<x11-libs/pango-1.44
+	>=x11-libs/pango-1.44.7
 	>=dev-libs/atk-1.12
 	>=x11-libs/gtk+-2.24:2
 	>=dev-python/pycairo-1.0.2[${PYTHON_USEDEP}]
