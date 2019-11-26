@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=6
 
-inherit gnome.org gnome2-utils bash-completion-r1 virtualx meson vala xdg
+inherit gnome2 bash-completion-r1 virtualx meson vala
 
 DESCRIPTION="Simple low-level configuration system"
 HOMEPAGE="https://wiki.gnome.org/action/show/Projects/dconf"
@@ -27,27 +27,22 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	$(vala_depend)
 "
-PATCHES=(
-	#"${FILESDIR}"/meson-52-dconf.patch
-	"${FILESDIR}"/drop-vapigen-dep.patch
-)
 
 src_prepare() {
+	vala_src_prepare
 	default
-	sed -i 's/module/& | grep -v mangle_path/' gsettings/abicheck.sh || die
 }
 
 src_configure() {
 	local emesonargs=(
-		-Dman=true
-		-Dvapi=true
+		-Denable-man=true
 	)
 
 	meson_src_configure
 }
 
 src_test() {
-	virtx meson_src_test
+	virtx emake check
 }
 
 src_install() {
@@ -62,8 +57,7 @@ src_install() {
 }
 
 pkg_postinst() {
-	xdg_pkg_postinst
-	gnome2_giomodule_cache_update
+	gnome2_pkg_postinst
 	# Kill existing dconf-service processes as recommended by upstream due to
 	# possible changes in the dconf private dbus API.
 	# dconf-service will be dbus-activated on next use.

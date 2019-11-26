@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GnomeShell"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="0"
-IUSE="+bluetooth +elogind +networkmanager nsplugin systemd"
+IUSE="+bluetooth elogind +networkmanager nsplugin systemd"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	?? ( elogind systemd )
 "
@@ -25,7 +25,7 @@ COMMON_DEPEND="
 	>=app-crypt/gcr-3.7.5[introspection]
 	>=dev-libs/glib-2.62.2:2[dbus]
 	>=dev-libs/gjs-1.57.3
-	>=dev-libs/gobject-introspection-1.58.0:=
+	>=dev-libs/gobject-introspection-1.62.0:=
 	>=dev-libs/libical-3:=
 	>=x11-libs/gtk+-3.24.12:3[introspection]
 	>=dev-libs/libcroco-0.6.8:0.6
@@ -69,7 +69,7 @@ RDEPEND="${COMMON_DEPEND}
 	x11-libs/pango[introspection]
 	>=gnome-base/gnome-session-3.30.0
 	>=gnome-base/gnome-settings-daemon-3.30.0
-	systemd? ( sys-apps/systemd )
+	systemd? ( >=sys-apps/systemd-186:0= )
 	elogind? ( sys-auth/elogind )
 	x11-misc/xdg-utils
 	media-fonts/dejavu
@@ -91,6 +91,7 @@ DEPEND="${COMMON_DEPEND}
 	>=sys-devel/gettext-0.19.6
 	virtual/pkgconfig
 "
+
 src_prepare() {
 		eapply "${FILESDIR}"/${PN}-3.34.0-improve-motd-handling.patch
 		eapply "${FILESDIR}"/${PN}-3.34.0-improve-screen-blanking.patch
@@ -100,8 +101,8 @@ src_prepare() {
 
 src_configure() {
 	local emesonargs=(
-		$(meson_use networkmanager)
-		$(meson_use systemd)
+		-Dsystemd=$(usex systemd true false)
+		-Dnetworkmanager=$(usex networkmanager true false)
 		-Dman=true
 	)
 
@@ -126,8 +127,6 @@ src_install() {
 	else
 		pax-mark m "${ED}usr/bin/gnome-shell"{,-extension-prefs}
 	fi
-	insinto /usr/share/backgrounds/gnome
-	doins -r ${FILESDIR}/wallpapers/*
 	insinto /usr/share/glib-2.0/schemas
 	doins ${FILESDIR}/funtoo-settings.gschema.override
 }
@@ -135,6 +134,7 @@ src_install() {
 pkg_postinst() {
 	xdg_pkg_postinst
 	gnome2_schemas_update
+
 	if ! has_version 'media-libs/gst-plugins-good:1.0' || \
 	   ! has_version 'media-plugins/gst-plugins-vpx:1.0'; then
 		ewarn "To make use of GNOME Shell's built-in screen recording utility,"

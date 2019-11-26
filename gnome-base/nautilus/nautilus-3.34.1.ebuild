@@ -38,7 +38,7 @@ COMMON_DEPEND="
 	x11-libs/libXrender
 
 	exif? ( >=media-libs/libexif-0.6.20 )
-	introspection? ( >=dev-libs/gobject-introspection-0.6.4:= )
+	introspection? ( >=dev-libs/gobject-introspection-1.62.0:= )
 	selinux? ( >=sys-libs/libselinux-2 )
 	>=app-misc/tracker-2.1.7:=
 "
@@ -97,3 +97,4 @@ pkg_postinst() {
 		elog "To preview media files, emerge nautilus with USE=previewer"
 	fi
 }
+

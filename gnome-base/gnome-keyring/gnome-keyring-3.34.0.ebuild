@@ -4,7 +4,7 @@
 EAPI=7
 PYTHON_COMPAT=( python3_{5,6,7} )
 
-inherit fcaps autotools gnome.org xdg  pam python-any-r1 virtualx
+inherit fcaps autotools gnome.org xdg pam python-any-r1 virtualx
 
 DESCRIPTION="Password and keyring managing daemon"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeKeyring"
@@ -51,7 +51,7 @@ src_prepare() {
 }
 
 src_configure() {
-	econf \
+	econf\
 		$(use_with caps libcap-ng) \
 		$(use_enable pam) \
 		$(use_with pam pam-dir $(getpam_mod_dir)) \

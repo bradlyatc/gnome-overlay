@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit gnome.org meson
+inherit gnome.org meson xdg
 
 DESCRIPTION="Libraries for the gnome desktop that are not part of the UI"
 HOMEPAGE="https://git.gnome.org/browse/gnome-desktop"
@@ -23,7 +23,7 @@ COMMON_DEPEND="
 	x11-libs/libX11
 	x11-misc/xkeyboard-config
 	>=gnome-base/gsettings-desktop-schemas-3.28.0
-	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
+	introspection? ( >=dev-libs/gobject-introspection-1.62.0:= )
 	udev? (
 		sys-apps/hwids
 		virtual/libudev:= )
@@ -41,7 +41,6 @@ DEPEND="${COMMON_DEPEND}
 	x11-base/xorg-proto
 	virtual/pkgconfig
 "
-
 src_configure() {
 	local emesonargs=(
 		-Dgnome_distributor=Funtoo

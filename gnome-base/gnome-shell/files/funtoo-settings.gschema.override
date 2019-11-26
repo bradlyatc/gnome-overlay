@@ -1,14 +1,3 @@
-[org.gnome.desktop.background]
-picture-uri = 'file:///usr/share/backgrounds/gnome/penguin_funtoo.png'
-picture-uri = 'file:///usr/share/backgrounds/gnome/Funtoo_Anisotropic.png'
-picture-uri = 'file:///usr/share/backgrounds/gnome/Funtoo_Glass_corner.png'
-picture-uri = 'file:///usr/share/backgrounds/gnome/Funtoo_GreenWire.png'
-picture-uri = 'file:///usr/share/backgrounds/gnome/Funtoo_Minimal_dark.png'
-picture-uri = 'file:///usr/share/backgrounds/gnome/Funtoo_Minimal_light.png'
-picture-uri = 'file:///usr/share/backgrounds/gnome/Funtoo_Sepia.png'
-picture-uri = 'file:///usr/share/backgrounds/gnome/GNOME.png'
-picture-uri = 'file:///usr/share/backgrounds/gnome/gnome-gnu-linux.jpg'
-
 [org.gnome.desktop.screensaver]
 picture-uri = 'file:///usr/share/backgrounds/gnome/ColdWarm.jpg'
 

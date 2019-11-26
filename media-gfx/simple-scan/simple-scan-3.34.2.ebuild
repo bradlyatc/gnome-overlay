@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+VALA_MAX_API_VERSION=0.44
 
 inherit gnome2 vala meson
 
@@ -14,7 +15,7 @@ KEYWORDS="*"
 IUSE="+colord packagekit"
 
 COMMON_DEPEND="
-	>=dev-libs/glib-2.32:2
+	>=dev-libs/glib-2.62.2:2
 	dev-libs/libgusb:=[vala]
 	>=media-gfx/sane-backends-1.0.20:=
 	>=sys-libs/zlib-1.2.3.1:=

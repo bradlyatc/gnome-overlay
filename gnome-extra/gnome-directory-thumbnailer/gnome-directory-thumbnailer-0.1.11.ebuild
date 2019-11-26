@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit gnome.org autotools
+inherit gnome.org xdg-utils gnome2-utils autotools
 
 DESCRIPTION="Thumbnail generator for directories"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeDirectoryThumbnailer"
@@ -26,5 +26,10 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	default
 	eautoreconf
+}
+
+pkg_postinst() {
+	xdg_icon_cache_update
+	gnome2_schemas_update 
 }
 

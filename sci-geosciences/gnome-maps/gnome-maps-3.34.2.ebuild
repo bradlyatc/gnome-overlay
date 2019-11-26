@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome-meson
+inherit gnome2 meson
 
 DESCRIPTION="A map application for GNOME"
 HOMEPAGE="https://wiki.gnome.org/Apps/Maps"
@@ -18,13 +18,13 @@ COMMON_DEPEND="
 	>=dev-libs/folks-0.10
 	>=dev-libs/gjs-1.44.0
 	>=dev-libs/gobject-introspection-0.10.1:=
-	>=dev-libs/glib-2.39.3:2
+	>=dev-libs/glib-2.62.2:2
 	>=dev-libs/libgee-0.16:0.8[introspection]
 	dev-libs/libxml2:2
 	>=media-libs/libchamplain-0.12.14:0.12[gtk,introspection]
 	>=net-libs/rest-0.7.90:0.7[introspection]
 	>=sci-geosciences/geocode-glib-3.15.2[introspection]
-	>=x11-libs/gtk+-3.22:3[introspection]
+	>=x11-libs/gtk+-3.24.12:3[introspection]
 "
 # Found by grepping imports.gi in ${S}
 RDEPEND="${COMMON_DEPEND}
