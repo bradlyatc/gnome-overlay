@@ -6,7 +6,7 @@ GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python{3_5,3_6,3_7} )
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 meson python-any-r1 vala eutils
+inherit gnome2 meson python-any-r1 vala
 
 VALA_MAX_API_VERSION=0.44
 
@@ -54,7 +54,8 @@ src_configure() {
 		-Dintrospection=$(usex introspection enabled disabled)
 		-Dntlm=$(usex samba enabled disabled)
 		-Dvapi=$(usex vala enabled disabled)
-		$(usex samba -Dntlm_auth="'${EPREFIX}/usr/bin/ntlm_auth'" "")
+		#-Dntlm_auth="${EPREFIX}/usr/bin/ntlm_auth"
+		$(usex samba -Dntlm_auth="${EPREFIX}/usr/bin/ntlm_auth" "")
 		$(meson_use gtk-doc gtk_doc)
 	)
 
