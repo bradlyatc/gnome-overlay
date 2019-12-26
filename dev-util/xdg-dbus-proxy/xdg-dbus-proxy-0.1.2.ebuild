@@ -3,8 +3,6 @@
 
 EAPI=7
 
-inherit autotools
-
 DESCRIPTION="Filtering proxy for D-Bus connections."
 HOMEPAGE="https://github.com/flatpak/xdg-dbus-proxy"
 SRC_URI="https://github.com/flatpak/xdg-dbus-proxy/releases/download/${PV}/${P}.tar.xz"
