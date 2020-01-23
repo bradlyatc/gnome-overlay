@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit gnome.org meson xdg
+inherit gnome.org meson xdg gnome2-utils
 
 DESCRIPTION="Image viewer and browser for Gnome"
 HOMEPAGE="https://wiki.gnome.org/Apps/gthumb"
@@ -51,3 +51,10 @@ DEPEND="${RDEPEND}
 	test? ( ~app-text/docbook-xml-dtd-4.1.2 )
 "
 
+pkg_postinst() {
+	gnome2_schemas_update
+}
+
+pkg_postrm() {
+	gnome2_schemas_update
+}
