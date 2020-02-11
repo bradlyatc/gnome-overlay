@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg"
 
 LICENSE="LGPL-2"
 SLOT="2"
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE="+introspection tools vala"
 
