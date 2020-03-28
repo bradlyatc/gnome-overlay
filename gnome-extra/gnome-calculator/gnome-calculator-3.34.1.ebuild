@@ -1,10 +1,10 @@
 # Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 inherit gnome.org gnome2-utils meson vala xdg
 
-VALA_MAX_API_VERSION=0.42
+VALA_MAX_API_VERSION=0.46
 
 DESCRIPTION="A calculator application for GNOME"
 HOMEPAGE="https://wiki.gnome.org/Apps/Calculator"
@@ -48,12 +48,12 @@ src_configure() {
 
 pkg_postinst() {
 	xdg_pkg_postinst
-	gnome2_icon_cache_update
+	xdg_icon_cache_update
 	gnome2_schemas_update
 }
 
 pkg_postrm() {
 	xdg_pkg_postrm
-	gnome2_icon_cache_update
+	xdg_icon_cache_update
 	gnome2_schemas_update
 }
