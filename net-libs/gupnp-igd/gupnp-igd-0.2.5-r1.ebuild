@@ -15,8 +15,8 @@ IUSE="+introspection"
 
 RDEPEND="
 	>=dev-libs/glib-2.62.2:2
-	=net-libs/gssdp-1.0.3:=
-	=net-libs/gupnp-1.0.3:=
+	>=net-libs/gssdp-0.14.7
+	>=net-libs/gupnp-0.20.10
 	introspection? ( >=dev-libs/gobject-introspection-1.62.0:= )
 "
 DEPEND="${RDEPEND}
@@ -28,7 +28,7 @@ DEPEND="${RDEPEND}
 # The only existing test is broken
 RESTRICT="test"
 
-multilib_src_configure() {
+src_configure() {
 	xdg_environment_reset
 
 	# python is old-style bindings; use introspection and pygobject instead

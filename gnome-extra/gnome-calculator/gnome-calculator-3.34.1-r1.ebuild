@@ -13,7 +13,7 @@ LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection"
+IUSE=""
 
 # gtksourceview vapi definitions in dev-lang/vala itself are too old, and newer vala removes them
 # altogether, thus we need them installed by gtksourceview[vala]
@@ -22,7 +22,7 @@ RDEPEND="
 	>=x11-libs/gtk+-3.24.12:3
 	x11-libs/gtksourceview:4[vala]
 	>=net-libs/libsoup-2.42:2.4
-	dev-libs/libgee
+	dev-libs/libgee-0.20.2
 	dev-libs/libxml2:2
 	dev-libs/mpc:=
 	dev-libs/mpfr:0=
@@ -42,7 +42,6 @@ src_prepare() {
 src_configure() {
 	local emesonargs=(
 		-Dvala-version=0.46
-		$(meson_use introspection disable-introspection)
 	)
 
 	meson_src_configure

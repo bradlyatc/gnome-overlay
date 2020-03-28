@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-PYTHON_COMPAT=( python3_{4,5,6} )
+PYTHON_COMPAT=( python3_{4,5,6,7} )
 VALA_MIN_API_VERSION="0.36"
 DISABLE_AUTOFORMATTING=1
 FORCE_PRINT_ELOG=1
@@ -53,7 +53,7 @@ RDEPEND="
 	dev-libs/libpcre:3
 	>=net-libs/webkit-gtk-2.12.0:4=[introspection]
 
-	>=dev-libs/gobject-introspection-1.48.0:=
+	>=dev-libs/gobject-introspection-1.62.0:=
 	>=dev-python/pygobject-3.22.0:3[${PYTHON_USEDEP}]
 	${PYTHON_DEPS}
 	clang? ( sys-devel/clang:= )

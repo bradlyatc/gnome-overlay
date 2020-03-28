@@ -2,9 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-GNOME2_LA_PUNT="yes"
 
-inherit meson bash-completion-r1 gnome2 systemd
+inherit meson bash-completion-r1 gnome.org systemd xdg
 
 DESCRIPTION="Virtual filesystem implementation for gio"
 HOMEPAGE="https://wiki.gnome.org/Projects/gvfs"
@@ -77,7 +76,7 @@ PATCHES=(
 )
 
 src_prepare() {
-	gnome2_src_prepare
+	xdg_src_prepare
 }
 
 src_configure() {

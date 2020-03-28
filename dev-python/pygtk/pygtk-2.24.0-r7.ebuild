@@ -13,7 +13,7 @@ HOMEPAGE="http://www.pygtk.org/"
 
 LICENSE="LGPL-2.1"
 SLOT="2"
-KEYWORDS=""
+KEYWORDS="*"
 IUSE="doc examples -numpy test"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
@@ -51,6 +51,7 @@ src_prepare() {
 	# Fix build on Darwin
 	epatch "${FILESDIR}/${PN}-2.24.0-quartz-objc.patch"
 
+	# Fix compile issues with pango >1.44
 	epatch "${FILESDIR}/pygtk-Drop-the-PangoFont-find_shaper-virtual-method.patch"
 
 	# Examples is handled "manually"

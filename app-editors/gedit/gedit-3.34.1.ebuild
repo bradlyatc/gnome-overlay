@@ -2,12 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-GNOME2_LA_PUNT="yes" # plugins are dlopened
 PYTHON_COMPAT=( python3_{5,6,7} )
 VALA_MIN_API_VERSION="0.26"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 meson python-single-r1 vala virtualx
+inherit gnome.org meson python-single-r1 vala virtualx xdg
 
 DESCRIPTION="A text editor for the GNOME desktop"
 HOMEPAGE="https://wiki.gnome.org/Apps/Gedit"
@@ -33,7 +32,7 @@ COMMON_DEPEND="
 
 	x11-libs/libX11
 
-	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
+	introspection? ( >=dev-libs/gobject-introspection-1.62.0:= )
 	python? (
 		${PYTHON_DEPS}
 		dev-python/pycairo[${PYTHON_USEDEP}]
@@ -60,5 +59,5 @@ pkg_setup() {
 
 src_prepare() {
 	vala_src_prepare
-	gnome2_src_prepare
+	xdg_src_prepare
 }

@@ -42,7 +42,7 @@ COMMON_DEPEND="
 	>=x11-libs/gtk+-3.24.12:3
 	>=x11-libs/libnotify-0.7:=
 	>=x11-misc/shared-mime-info-0.22
-	net-mail/ytnef
+
 	>=app-text/iso-codes-0.49
 	dev-libs/atk
 	gnome-base/dconf
@@ -98,15 +98,8 @@ file from /usr/share/applications if you use a different browser)."
 src_configure() {
 	local mycmakeargs=(
 		-DWITH_OPENLDAP=$(usex ldap ON OFF)
+		-DENABLE_YTNEF=OFF
 		-DENABLE_PST_IMPORT=OFF
-		-DENABLE_GNOME_DESKTOP=ON
-		-DWITH_ENCHANT_VERSION=2
-		-DENABLE_CANBERRA=ON
-		-DENABLE_AUTOAR=ON
-		-DENABLE_SMIME=ON
-		-DENABLE_TEXT_HIGHLIGHT=$(usex highlight)
-		-DENABLE_YTNEF=ON
-		-DENABLE_CONTACT_MAPS=$(usex geolocation)
 		-DENABLE_GSPELL=$(usex spell ON OFF)
 		-DENABLE_WEATHER=$(usex weather ON OFF)
 	)

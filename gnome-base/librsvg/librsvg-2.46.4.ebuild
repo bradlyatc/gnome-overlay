@@ -2,14 +2,14 @@
 
 EAPI=6
 VALA_USE_DEPEND="vapigen"
-inherit autotools eutils gnome.org xdg gnome2-utils vala
+inherit autotools eutils gnome.org vala xdg
 
 DESCRIPTION="Scalable Vector Graphics (SVG) rendering library"
 HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg"
 
 LICENSE="LGPL-2"
 SLOT="2"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="+introspection tools vala"
 
@@ -21,7 +21,7 @@ RDEPEND="
 	>=dev-libs/libcroco-0.6.8
 	>=x11-libs/gdk-pixbuf-2.39.2:2[introspection?]
 	>=virtual/rust-1.34
-	introspection? ( >=dev-libs/gobject-introspection-0.10.8:= )
+	introspection? ( >=dev-libs/gobject-introspection-1.62.0:= )
 "
 DEPEND="${RDEPEND}
 	dev-libs/gobject-introspection-common
@@ -31,6 +31,7 @@ DEPEND="${RDEPEND}
 	vala? ( $(vala_depend) )
 	>=virtual/pkgconfig-0-r1
 "
+
 src_prepare() {
 	local build_dir
 
@@ -47,7 +48,6 @@ src_configure() {
 		$(use_enable tools) \
 		$(use_enable vala) \
 		--enable-pixbuf-loader
-
 	ln -s "${S}"/doc/html doc/html || die
 }
 
@@ -56,20 +56,14 @@ src_compile() {
 	unset __GL_NO_DSO_FINALIZER
 }
 
-pkg_preinst() {
-	gnome2_gdk_pixbuf_savelist
-}
-
 pkg_postinst() {
 	# causes segfault if set, see bug 375615
 	unset __GL_NO_DSO_FINALIZER
-	gnome2_gdk_pixbuf_update
 	xdg_pkg_postinst
 }
 
 pkg_postrm() {
 	# causes segfault if set, see bug 375615
 	unset __GL_NO_DSO_FINALIZER
-	gnome2_gdk_pixbuf_update
 	xdg_pkg_postrm
 }

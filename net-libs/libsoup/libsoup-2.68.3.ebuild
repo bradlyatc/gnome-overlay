@@ -1,11 +1,11 @@
 # Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
-#PYTHON_COMPAT=( python{3_5,3_6,3_7} )
+EAPI="6"
+PYTHON_COMPAT=( python{3_5,3_6,3_7} )
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome.org meson vala eutils xdg
+inherit gnome3 meson python-any-r1 vala eutils
 
 VALA_MAX_API_VERSION=0.44
 
@@ -15,7 +15,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/libsoup"
 LICENSE="LGPL-2+"
 SLOT="2.4"
 KEYWORDS="*"
-#RESTRICT="userpriv"
+RESTRICT="userpriv"
 
 IUSE="gtk-doc gssapi +introspection samba +vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -45,7 +45,7 @@ RDEPEND="${COMMON_DEPEND}"
 
 src_prepare() {
 	use vala && vala_src_prepare
-	xdg_src_prepare
+	default
 }
 
 src_configure() {
@@ -54,10 +54,8 @@ src_configure() {
 		-Dintrospection=$(usex introspection enabled disabled)
 		-Dntlm=$(usex samba enabled disabled)
 		-Dvapi=$(usex vala enabled disabled)
-		-Dtls_check=false
 		-Dntlm_auth="${EPREFIX}/usr/bin/ntlm_auth"
-		-Dgtk-doc=$(meson_use gtk-doc gtk_doc)
-		-Dgnome=false
+		$(meson_use gtk-doc gtk_doc)
 	)
 
 	meson_src_configure

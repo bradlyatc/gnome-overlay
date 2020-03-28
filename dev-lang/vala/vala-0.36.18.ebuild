@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-inherit gnome2
+inherit gnome.org
 
 DESCRIPTION="Compiler for the GObject type system"
 HOMEPAGE="https://wiki.gnome.org/Projects/Vala"
@@ -16,7 +16,7 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.62.2:2
 	>=dev-libs/vala-common-${PV}
 	>=media-gfx/graphviz-2.16
-	dev-libs/gobject-introspection
+	>=dev-libs/gobject-introspection-1.62.0:=
 "
 
 RDEPEND="${COMMON_DEPEND}
@@ -36,7 +36,7 @@ src_configure() {
 	export GIT_CEILING_DIRECTORIES="${WORKDIR}"
 
 	# weasyprint enables generation of PDF from HTML
-	gnome2_src_configure \
+	ECONF_SOURCES="${S}" econf \
 		--disable-unversioned \
 		VALAC=: \
 		WEASYPRINT=:
