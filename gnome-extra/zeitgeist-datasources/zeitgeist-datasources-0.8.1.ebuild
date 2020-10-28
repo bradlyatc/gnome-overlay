@@ -1,4 +1,3 @@
-# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,9 +5,9 @@ EAPI=5
 
 AUTOTOOLS_AUTORECONF=true
 VALA_MIN_API_VERSION=0.14
-PYTHON_COMPAT=( python2_7  )
+PYTHON_COMPAT=( python2_7 )
 
-inherit autotools-utils eutils mono-env multilib python-single-r1 versionator vala
+inherit autotools-utils eutils mono-env python-single-r1 versionator vala
 
 DIR_PV=$(get_version_component_range 1-2)
 DIR_PV2=$(get_version_component_range 1-3)

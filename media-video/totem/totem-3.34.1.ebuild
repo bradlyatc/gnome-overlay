@@ -1,8 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
+PYTHON_COMPAT=( python3+ )
 PYTHON_REQ_USE="threads(+)"
 
 inherit gnome2 python-single-r1 meson vala
@@ -52,7 +51,7 @@ COMMON_DEPEND="
 	nautilus? ( >=gnome-base/nautilus-2.91.3 )
 	python? (
 		${PYTHON_DEPS}
-		>=dev-python/pygobject-2.90.3:3[${PYTHON_USEDEP}] )
+		$(python_gen_cond_dep '>=dev-python/pygobject-2.90.3:3[${PYTHON_USEDEP}]') )
 "
 RDEPEND="${COMMON_DEPEND}
 	media-plugins/grilo-plugins:0.3
@@ -60,9 +59,11 @@ RDEPEND="${COMMON_DEPEND}
 	media-plugins/gst-plugins-taglib:1.0
 	x11-themes/adwaita-icon-theme
 	python? (
+		$(python_gen_cond_dep '
 		>=dev-libs/libpeas-1.1.0[python,${PYTHON_USEDEP}]
 		dev-python/pyxdg[${PYTHON_USEDEP}]
 		dev-python/dbus-python[${PYTHON_USEDEP}]
+		')
 		>=x11-libs/gtk+-3.24.12:3[introspection] )
 "
 # libxml2+gdk-pixbuf required for glib-compile-resources
@@ -104,10 +105,7 @@ src_configure() {
 	local emesonargs=(
 		-Denable-easy-codec-installation=yes
 		-Denable-gtk-doc=false
-		-Denable-introspection=$(usex introspection yes no)
-		-Denable-nautilus=$(usex nautilus yes no)
 		-Denable-python=$(usex python yes no)
-		-Denable-vala=$(usex vala yes no)
 		-Dwith-plugins=auto
 	)
 	meson_src_configure

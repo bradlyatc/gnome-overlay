@@ -1,9 +1,8 @@
-# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-PYTHON_COMPAT=( python2_7 python3_{5,6,7} )
+PYTHON_COMPAT=( python2+ )
 
 inherit cmake-utils python-single-r1
 
@@ -23,8 +22,10 @@ DEPEND="${PYTHON_DEPS}
 	sys-apps/coreutils
 "
 RDEPEND="${PYTHON_DEPS}
+	$(python_gen_cond_dep '
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
 	dev-python/requests[${PYTHON_USEDEP}]
+	')
 	gnome-base/gnome-shell
 "
 

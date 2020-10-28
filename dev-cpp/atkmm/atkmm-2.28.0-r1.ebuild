@@ -1,4 +1,3 @@
-# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -18,7 +17,7 @@ IUSE="doc"
 # deps get unpleasant.
 
 COMMON_DEPEND="
-	=dev-cpp/glibmm-2.62.0*[doc?]
+	>=dev-cpp/glibmm-2.62.0[doc?]
 	>=dev-libs/atk-2.18.0
 	>=dev-libs/libsigc++-2.3.2:2
 "

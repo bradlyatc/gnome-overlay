@@ -1,8 +1,7 @@
-# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python3_{5,6,7} )
+PYTHON_COMPAT=( python3+ )
 
 inherit gnome.org meson python-single-r1 xdg
 
@@ -19,7 +18,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 COMMON_DEPEND="
 	${PYTHON_DEPS}
 	>=dev-libs/glib-2.62.2:2[dbus]
-	>=dev-python/pygobject-3.30.0:3[${PYTHON_USEDEP}]
+	$(python_gen_cond_dep '>=dev-python/pygobject-3.30.0:3[${PYTHON_USEDEP}]')
 	>=gnome-base/gsettings-desktop-schemas-3.28.1
 	!gnome-extra/gnome-tweak-tool
 "

@@ -1,9 +1,8 @@
-# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-PYTHON_COMPAT=( python{2_7,3_4} )
+PYTHON_COMPAT=( python2+ )
 GNOME2_LA_PUNT="yes"
 
 inherit eutils gnome2 python-single-r1

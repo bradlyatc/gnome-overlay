@@ -1,9 +1,8 @@
-# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7} )
+PYTHON_COMPAT=( python3+ )
 inherit meson python-r1 vala vcs-snapshot
 
 DESCRIPTION="Accounts SSO (Single Sign-On) management library for GLib applications"

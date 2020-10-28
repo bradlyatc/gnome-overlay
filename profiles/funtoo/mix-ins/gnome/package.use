@@ -1,3 +1,5 @@
+media-gfx/shotwell -opencv
+
 # berkdb is only required for migrating from gnome 3.13. So not really needed at all.
 gnome-extra/evolution-data-server -berkdb vala
 
@@ -7,7 +9,9 @@ x11-libs/gtk+ cloudprint
 
 # needed by simple-scan
 dev-libs/libgusb vala
-
+# This resolves a circular dep. For everything else we want introspection enabled
+# via make.defaults USE.
+net-dns/avahi -introspection
 # disable zeroconf USE for cups, this workarounds cir.dep between avahi, cups and gtk+
 net-print/cups -zeroconf
 
@@ -146,3 +150,10 @@ net-im/telepathy-mission-control -deprecated
 
 x11-libs/gtksourceview vala
 dev-libs/libgweather vala
+dev-libs/libical glib vala
+
+net-libs/gnutls pkcs11
+
+# Relatively sane GNOME defaults app-editors/emacs.
+# Also, see the workstation profile.
+app-editors/emacs gsettings lcms
