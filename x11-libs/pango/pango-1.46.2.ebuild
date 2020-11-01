@@ -1,9 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 GNOME2_LA_PUNT="yes"
 
-inherit gnome2 toolchain-funcs meson
+inherit gnome3 toolchain-funcs meson
 
 DESCRIPTION="Internationalized text layout and rendering library"
 HOMEPAGE="http://www.pango.org/"
@@ -36,24 +36,21 @@ DEPEND="${RDEPEND}
 	!<=sys-devel/autoconf-2.63:2.5
 "
 
-src_prepare() {
-	default
-}
-
 src_configure() {
 	tc-export CXX
 
 	local emesonargs=(
 		$(meson_use introspection)
 		$(meson_use doc gtk_doc)
+		-Dinstall-tests=false
 	)
 	meson_src_configure
 }
 
 src_install() {
 	meson_src_install
-	cd ${D}/usr/include/pango-1.0 || die
-	for x in $(find -iname *.h); do
-		sed -i -e 's:include <hb:include <harfbuzz/hb:g' $x || die
-	done
+#	cd ${D}/usr/include/pango-1.0 || die
+#	for x in $(find -iname *.h); do
+#		sed -i -e 's:include <hb:include <harfbuzz/hb:g' $x || die
+#	done
 }

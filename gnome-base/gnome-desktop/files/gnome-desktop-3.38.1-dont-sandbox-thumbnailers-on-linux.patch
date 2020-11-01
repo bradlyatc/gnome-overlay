@@ -1,6 +1,6 @@
 diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b/libgnome-desktop/gnome-desktop-thumbnail-script.c
---- a/libgnome-desktop/gnome-desktop-thumbnail-script.c	2020-09-09 05:13:03.000000000 -0500
-+++ b/libgnome-desktop/gnome-desktop-thumbnail-script.c	2020-09-25 21:25:39.997774000 -0500
+--- a/libgnome-desktop/gnome-desktop-thumbnail-script.c	2020-10-05 14:11:19.000000000 -0500
++++ b/libgnome-desktop/gnome-desktop-thumbnail-script.c	2020-10-05 22:42:12.742376000 -0500
 @@ -33,28 +33,11 @@
  #include <sys/stat.h>
  #include <fcntl.h>
@@ -30,7 +30,7 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
  } ScriptExec;
  
  static char *
-@@ -117,499 +100,11 @@
+@@ -117,506 +100,11 @@
    return g_string_free (str, FALSE);
  }
  
@@ -155,10 +155,10 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
 -}
 -
 -/* From https://github.com/flatpak/flatpak/blob/master/common/flatpak-run.c */
--static const uint32_t seccomp_x86_64_extra_arches[] = { SCMP_ARCH_X86, 0, };
+-static const guint32 seccomp_x86_64_extra_arches[] = { SCMP_ARCH_X86, 0, };
 -
 -#ifdef SCMP_ARCH_AARCH64
--static const uint32_t seccomp_aarch64_extra_arches[] = { SCMP_ARCH_ARM, 0 };
+-static const guint32 seccomp_aarch64_extra_arches[] = { SCMP_ARCH_ARM, 0 };
 -#endif
 -
 -static inline void
@@ -244,7 +244,14 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
 -    {SCMP_SYS (unshare)},
 -    {SCMP_SYS (mount)},
 -    {SCMP_SYS (pivot_root)},
+-#if defined(__s390__) || defined(__s390x__) || defined(__CRIS__)
+-    /* Architectures with CONFIG_CLONE_BACKWARDS2: the child stack
+-     * and flags arguments are reversed so the flags come second */
+-    {SCMP_SYS (clone), &SCMP_A1 (SCMP_CMP_MASKED_EQ, CLONE_NEWUSER, CLONE_NEWUSER)},
+-#else
+-    /* Normally the flags come first */
 -    {SCMP_SYS (clone), &SCMP_A0 (SCMP_CMP_MASKED_EQ, CLONE_NEWUSER, CLONE_NEWUSER)},
+-#endif
 -
 -    /* Don't allow faking input to the controlling tty (CVE-2017-5226) */
 -    {SCMP_SYS (ioctl), &SCMP_A1(SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int)TIOCSTI)},
@@ -289,8 +296,8 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
 -
 -  if (arch != NULL)
 -    {
--      uint32_t arch_id = 0;
--      const uint32_t *extra_arches = NULL;
+-      guint32 arch_id = 0;
+-      const guint32 *extra_arches = NULL;
 -
 -      if (strcmp (arch, "i386") == 0)
 -        {
@@ -534,7 +541,7 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
  {
    GPtrArray *array;
    g_auto(GStrv) cmd_elems = NULL;
-@@ -619,41 +114,8 @@
+@@ -626,41 +114,8 @@
    if (!g_shell_parse_argv (cmd, NULL, &cmd_elems, error))
      return NULL;
  
@@ -576,7 +583,7 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
    got_in = got_out = FALSE;
    for (i = 0; cmd_elems[i] != NULL; i++)
      {
-@@ -661,8 +123,8 @@
+@@ -668,8 +123,8 @@
  
        expanded = expand_thumbnailing_elem (cmd_elems[i],
  					   size,
@@ -587,7 +594,7 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
  					   &got_in,
  					   &got_out);
  
-@@ -692,81 +154,30 @@
+@@ -699,81 +154,30 @@
  }
  
  static void
@@ -671,7 +678,7 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
    file = g_file_new_for_uri (uri);
  
    exec->infile = g_file_get_path (file);
-@@ -777,49 +188,11 @@
+@@ -784,49 +188,11 @@
        goto bail;
      }
  
@@ -726,7 +733,7 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
  
    return exec;
  
-@@ -860,14 +233,14 @@
+@@ -867,14 +233,14 @@
    exec = script_exec_new (uri, error);
    if (!exec)
      goto out;

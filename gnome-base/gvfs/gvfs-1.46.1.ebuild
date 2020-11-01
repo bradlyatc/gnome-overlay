@@ -70,10 +70,6 @@ DEPEND="${RDEPEND}
 "
 RESTRICT="test"
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-1.30.2-sysmacros.patch #580234
-)
-
 src_prepare() {
 	gnome3_src_prepare
 }

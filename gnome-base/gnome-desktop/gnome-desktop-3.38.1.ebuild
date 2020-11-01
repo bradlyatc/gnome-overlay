@@ -42,7 +42,7 @@ DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
 "
 src_prepare() {
-	eapply "${FILESDIR}"/${PN}-3.36.6-dont-sandbox-thumbnailers-on-linux.patch
+	eapply "${FILESDIR}"/${PN}-3.38.1-dont-sandbox-thumbnailers-on-linux.patch
 
 	gnome3_src_prepare
 }

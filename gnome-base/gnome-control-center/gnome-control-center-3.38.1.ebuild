@@ -23,7 +23,7 @@ QA_CONFIGURE_OPTIONS=".*"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.62.2:2[dbus]
-	dev-libs/libhandy
+	>=dev-libs/libhandy-1.0.0
 	>=x11-libs/gdk-pixbuf-2.39.2:2
 	>=x11-libs/gtk+-3.24.12:3[X,wayland?]
 	>=gnome-base/gsettings-desktop-schemas-3.28.0
@@ -112,11 +112,6 @@ DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
 "
 
-PATCHES=(
-	"${FILESDIR}/3.36.2-temporarily-revert-alt-char-key.patch"
-)
-
-
 src_configure() {
 	local emesonargs=(
 		$(meson_use ibus)
@@ -130,4 +125,14 @@ src_configure() {
 src_install() {
 	addwrite /usr/share/icons
 	meson_src_install completiondir="$(get_bashcompdir)"
+
+	rm -f "${ED}"/usr/include/libhandy-*/handy.h
+	rm -f "${ED}"/usr/include/libhandy-*/hdy-*.h
+	rm -f "${ED}"/usr/lib*/girepository-1.0/Handy-*typelib
+	rm -f "${ED}"/usr/lib*/libhandy-*.so
+	rm -f "${ED}"/usr/lib*/libhandy-*.so.0
+	rm -f "${ED}"/usr/lib*/pkgconfig/libhandy-*.pc
+	rm -f "${ED}"/usr/share/gir-1.0/Handy-0.0.gir
+	rm -f "${ED}"/usr/share/vala/vapi/libhandy-*.deps
+	rm -f "${ED}"/usr/share/vala/vapi/libhandy-*.vapi
 }
