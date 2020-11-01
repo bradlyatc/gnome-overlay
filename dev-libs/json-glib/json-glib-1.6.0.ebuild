@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit gnome2 meson
+inherit gnome3 meson
 
 DESCRIPTION="Library providing GLib serialization and deserialization for the JSON format"
 HOMEPAGE="https://wiki.gnome.org/Projects/JsonGlib"
@@ -27,24 +27,15 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# Do not touch CFLAGS with --enable-debug=yes
-	sed -e 's/CFLAGS -g/CFLAGS/' -i "${S}"/configure || die
-	gnome2_src_prepare
+	gnome3_src_prepare
 }
 
 src_configure() {
 	local emesonargs=(
-		$(meson_use doc)
-		$(meson_use introspection)
+		$(meson_feature doc gtk_doc)
+		$(meson_feature introspection)
 	)
 
 	meson_src_configure
 }
 
-src_compile() {
-	meson_src_compile
-}
-
-src_install() {
-	meson_src_install
-}

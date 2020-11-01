@@ -33,9 +33,13 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_configure() {
+	# https://bugs.gentoo.org/483134
+	export GIT_CEILING_DIRECTORIES="${WORKDIR}"
+
 	# weasyprint enables generation of PDF from HTML
 	gnome3_src_configure \
 		--disable-unversioned \
+		--disable-valadoc \
 		VALAC=: \
 		WEASYPRINT=:
 }
