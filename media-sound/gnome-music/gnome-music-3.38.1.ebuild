@@ -17,7 +17,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 COMMON_DEPEND="
 	${PYTHON_DEPS}
-	>=net-libs/gnome-online-accounts-${PV%.*}
+	>=net-libs/gnome-online-accounts-3.37
 	>=app-misc/tracker-2:=
 	$(python_gen_cond_dep '
 	>=dev-python/pygobject-3.21.1:3[cairo,${PYTHON_USEDEP}]

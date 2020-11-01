@@ -17,7 +17,7 @@ RDEPEND="
 	>=dev-libs/glib-2.62.2:2
 	>=dev-libs/libical-3
 	>=gnome-extra/evolution-data-server-3.17.1:=
-	>=net-libs/gnome-online-accounts-${PV%.*}:=
+	>=net-libs/gnome-online-accounts-3.37:=
 	>=x11-libs/gtk+-3.24.12:3
 	>=dev-libs/libdazzle-3.33.1
 	>=dev-libs/libgweather-3.27.4
