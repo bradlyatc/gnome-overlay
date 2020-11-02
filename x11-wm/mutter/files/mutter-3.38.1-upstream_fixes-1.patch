@@ -1,0 +1,144 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2020-10-12
+Initial Package Version: 3.38.1
+Upstream Status:         Applied
+Origin:                  Upstream + Self
+Description:             Fixes a build system issue related to build ordering
+                         (having to do with generated headers), as well as
+                         fixes a potential crash with the latest version of
+                         libinput. This also factors in the upstream fix for
+                         window scaling on Wayland, with programs such as
+                         gnome-terminal.
+
+diff -Naurp mutter-3.38.1.orig/src/backends/meta-backend-private.h mutter-3.38.1/src/backends/meta-backend-private.h
+--- mutter-3.38.1.orig/src/backends/meta-backend-private.h	2020-10-05 13:05:31.613274600 -0500
++++ mutter-3.38.1/src/backends/meta-backend-private.h	2020-10-12 11:30:10.176509133 -0500
+@@ -42,10 +42,6 @@
+ #include "backends/meta-settings-private.h"
+ #include "core/util-private.h"
+ 
+-#ifdef HAVE_REMOTE_DESKTOP
+-#include "backends/meta-remote-desktop.h"
+-#endif
+-
+ #define DEFAULT_XKB_RULES_FILE "evdev"
+ #define DEFAULT_XKB_MODEL "pc105+inet"
+ 
+diff -Naurp mutter-3.38.1.orig/src/backends/meta-backend-types.h mutter-3.38.1/src/backends/meta-backend-types.h
+--- mutter-3.38.1.orig/src/backends/meta-backend-types.h	2020-10-05 13:05:31.613274600 -0500
++++ mutter-3.38.1/src/backends/meta-backend-types.h	2020-10-12 11:30:42.397508778 -0500
+@@ -59,4 +59,8 @@ typedef struct _MetaScreenCastStream Met
+ 
+ typedef struct _MetaWaylandCompositor MetaWaylandCompositor;
+ 
++#ifdef HAVE_REMOTE_DESKTOP
++typedef struct _MetaRemoteDesktop MetaRemoteDesktop;
++#endif
++
+ #endif /* META_BACKEND_TYPE_H */
+diff -Naurp mutter-3.38.1.orig/src/backends/native/meta-seat-native.c mutter-3.38.1/src/backends/native/meta-seat-native.c
+--- mutter-3.38.1.orig/src/backends/native/meta-seat-native.c	2020-10-05 13:05:31.646273900 -0500
++++ mutter-3.38.1/src/backends/native/meta-seat-native.c	2020-10-12 11:36:10.128505168 -0500
+@@ -1485,31 +1485,41 @@ process_base_event (MetaSeatNative
+                     struct libinput_event *event)
+ {
+   ClutterInputDevice *device = NULL;
+-  ClutterEvent *device_event;
++  ClutterEvent *device_event = NULL;
+   struct libinput_device *libinput_device;
++  ClutterStage *stage;
++
++  stage = meta_seat_native_get_stage (seat);
+ 
+   switch (libinput_event_get_type (event))
+     {
+     case LIBINPUT_EVENT_DEVICE_ADDED:
+       libinput_device = libinput_event_get_device (event);
+-
+       device = evdev_add_device (seat, libinput_device);
+-      device_event = clutter_event_new (CLUTTER_DEVICE_ADDED);
+-      clutter_event_set_device (device_event, device);
++      
++      if (stage)
++      {
++         device_event = clutter_event_new (CLUTTER_DEVICE_ADDED);
++         clutter_event_set_device (device_event, device);
++      }
+       break;
+ 
+     case LIBINPUT_EVENT_DEVICE_REMOVED:
+       libinput_device = libinput_event_get_device (event);
+-
+       device = libinput_device_get_user_data (libinput_device);
+-      device_event = clutter_event_new (CLUTTER_DEVICE_REMOVED);
+-      clutter_event_set_device (device_event, device);
++      
++      if (stage)
++      {
++         device_event = clutter_event_new (CLUTTER_DEVICE_REMOVED);
++         clutter_event_set_device (device_event, device);
++      }
++
+       evdev_remove_device (seat,
+                            META_INPUT_DEVICE_NATIVE (device));
+       break;
+ 
+     default:
+-      device_event = NULL;
++      break;
+     }
+ 
+   if (device_event)
+@@ -2861,6 +2871,16 @@ meta_seat_native_set_stage (MetaSeatNati
+       ClutterInputDevice *device = l->data;
+ 
+       _clutter_input_device_set_stage (device, stage);
++
++      if (clutter_input_device_get_device_mode (device) == CLUTTER_INPUT_MODE_PHYSICAL)
++      {
++         ClutterEvent *device_event;
++
++         device_event = clutter_event_new (CLUTTER_DEVICE_ADDED);
++         clutter_event_set_device (device_event, device);
++         device_event->device.stage = stage;
++         queue_event (device_event);
++      }
+     }
+ }
+ 
+diff -Naurp mutter-3.38.1.orig/src/wayland/meta-window-wayland.c mutter-3.38.1/src/wayland/meta-window-wayland.c
+--- mutter-3.38.1.orig/src/wayland/meta-window-wayland.c	2020-10-05 13:05:31.737271500 -0500
++++ mutter-3.38.1/src/wayland/meta-window-wayland.c	2020-10-12 11:40:09.205502534 -0500
+@@ -956,8 +956,32 @@ meta_window_wayland_finish_move_resize (
+     {
+       if (acked_configuration)
+         {
++          
++          int offset_x;
++          int offset_y;
++
+           rect.x = acked_configuration->x;
+           rect.y = acked_configuration->y;
++
++          offset_x = acked_configuration->width - new_geom.width;
++          offset_y = acked_configuration->height - new_geom.height;
++          switch (acked_configuration->gravity)
++          {
++             case META_GRAVITY_SOUTH:
++             case META_GRAVITY_SOUTH_WEST:
++                rect.y += offset_y;
++                break;
++             case META_GRAVITY_EAST:
++             case META_GRAVITY_NORTH_EAST:
++                rect.x += offset_x;
++                break;
++             case META_GRAVITY_SOUTH_EAST:
++                rect.x += offset_x;
++                rect.y += offset_y;
++                break;
++             default:
++                break;
++          }
+         }
+     }
+ 

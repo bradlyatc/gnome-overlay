@@ -22,7 +22,7 @@ DEPEND="
 	sci-geosciences/geocode-glib
 	>=media-libs/gexiv2-0.10.8
 	>=dev-libs/glib-2.57.2:2
-	>=net-libs/gnome-online-accounts-3.8.0:=
+	>=net-libs/gnome-online-accounts-3.37.0:=
 	>=media-libs/grilo-0.3.5:0.3=
 	gnome-base/gsettings-desktop-schemas
 	>=x11-libs/gtk+-3.22.16:3
@@ -31,7 +31,7 @@ DEPEND="
 	>=net-libs/libgfbgraph-0.2.1:0.2
 	virtual/jpeg:0
 	>=media-libs/libpng-1.6:0=
-	>=app-misc/tracker-2.0:0/2.0
+	>=app-misc/tracker-2.0:0/2.0:=
 	sys-apps/dbus
 "
 # gnome-online-miners is also used for google, facebook, DLNA - not only flickr

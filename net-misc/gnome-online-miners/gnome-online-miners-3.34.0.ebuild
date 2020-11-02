@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-inherit gnome2
+inherit gnome3
 
 DESCRIPTION="Crawls through your online content"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeOnlineMiners"
@@ -15,8 +15,8 @@ IUSE="flickr"
 
 # libgdata[gnome-online-accounts] needed for goa support
 RDEPEND="
-	>=app-misc/tracker-1.99:=
-	>=dev-libs/glib-2.62.2:2
+	<app-misc/tracker-3.00:2
+	>=dev-libs/glib-2.66.0:2
 	>=dev-libs/libgdata-0.15.2:0=[crypt,gnome-online-accounts]
 	media-libs/grilo:0.3
 	>=net-libs/gnome-online-accounts-3.13.3:=
@@ -29,7 +29,7 @@ DEPEND="${RDEPEND}
 "
 
 src_configure() {
-	gnome2_src_configure \
+	gnome3_src_configure \
 		$(use_enable flickr) \
 		--disable-static \
 		--enable-facebook \

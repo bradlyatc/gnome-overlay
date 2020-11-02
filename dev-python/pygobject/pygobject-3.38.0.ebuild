@@ -1,9 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python2+ )
+PYTHON_COMPAT=( python3+ )
 
-inherit eutils virtualx python-r1 meson
+inherit virtualx python-r1 meson
 
 SRC_URI="https://download.gnome.org/sources/pygobject/${PV::-2}/pygobject-${PV}.tar.xz"
 
@@ -58,7 +58,7 @@ src_configure() {
 
 		local emesonargs=(
 			-Dpython=${EPYTHON}
-			$(meson_use cairo pycairo)
+			$(meson_feature cairo pycairo)
 		)
 
 		meson_src_configure

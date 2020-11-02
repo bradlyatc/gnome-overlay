@@ -60,18 +60,16 @@ COMMON_DEPEND="
 	input_devices_wacom? ( >=dev-libs/libwacom-0.13 )
 	introspection? ( >=dev-libs/gobject-introspection-1.62.0:= )
 	udev? ( >=virtual/libgudev-232:= )
-	wayland? (
-		>=dev-libs/libinput-1.4
-		>=dev-libs/wayland-1.6.90
-		>=dev-libs/wayland-protocols-1.19
-		>=media-libs/mesa-10.3[egl,gbm,wayland]
-		|| ( sys-auth/elogind sys-apps/systemd )
-		>=virtual/libudev-232:=
-		x11-base/xorg-server[wayland]
-		x11-libs/libdrm:=
-	)
-	>=media-video/pipewire-0.3.0
-	profiler? ( >=dev-util/sysprof-3.34.0 )
+	>=dev-libs/libinput-1.4
+	>=dev-libs/wayland-1.18.0
+	>=dev-libs/wayland-protocols-1.20
+	>=media-libs/mesa-19.2[egl,gbm,wayland]
+	|| ( sys-auth/elogind sys-apps/systemd )
+	>=virtual/libudev-232:=
+	x11-base/xorg-server[wayland]
+	x11-libs/libdrm:=
+	>=media-video/pipewire-0.3.13
+	profiler? ( >=dev-util/sysprof-3.38.0 )
 "
 
 DEPEND="${COMMON_DEPEND}
@@ -84,8 +82,8 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 "
 
-PATCHES=( "${FILESDIR}/${PN}-3.34.2-add-get-color-info.patch"
-	"${FILESDIR}/${PN}-3.34.2-support-eudev.patch"
+PATCHES=( "${FILESDIR}/${PN}-3.34.2-support-eudev.patch"
+	"${FILESDIR}"/mutter-3.38.1-upstream_fixes-1.patch
 )
 
 src_configure() {
@@ -96,9 +94,11 @@ src_configure() {
 		-Degl=true
 		-Dglx=true
 		-Dsm=true
-		-Dnative_backend=true
+		-Dnative_backend=false
 		-Dwayland_eglstream=false
-		-Dremote_desktop=true
+		-Dremote_desktop=false
+		-Dpango_ft2=true
+		-Dstartup_notification=true
 		$(meson_use gles2)
 		$(meson_use introspection)
 		$(meson_use wayland)

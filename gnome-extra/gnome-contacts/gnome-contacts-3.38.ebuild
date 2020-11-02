@@ -32,7 +32,7 @@ RDEPEND="
 	media-libs/clutter:1.0
 	media-libs/clutter-gtk:1.0
 	media-libs/libchamplain:0.12
-	>=net-libs/gnome-online-accounts-${PV%.*}:=[vala]
+	>=net-libs/gnome-online-accounts-3.37:=[vala]
 	>=net-libs/telepathy-glib-0.17.5
 	>=sci-geosciences/geocode-glib-3.15.3
 	x11-libs/cairo:=
@@ -60,7 +60,7 @@ src_prepare() {
 src_configure() {
 	local emesonargs=(
 		-Dmanpage=true
-		$(meson_use v4l cheese)
+		$(meson_feature v4l cheese)
 		$(meson_use telepathy)
 		$(meson_use valadocs docs)
 	)

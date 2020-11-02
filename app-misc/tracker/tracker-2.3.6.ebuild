@@ -1,15 +1,15 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=6
 PYTHON_COMPAT=( python3+ )
 
-inherit bash-completion-r1 gnome3 linux-info meson python-any-r1 systemd vala
+inherit bash-completion-r1 eapi7-ver gnome3 linux-info meson python-any-r1 systemd vala
 
 DESCRIPTION="A tagging metadata database, search tool and indexer"
 HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
-SLOT="${PV}/3"
+SLOT="${PV}/2.0"
 IUSE="gtk-doc +miners networkmanager stemmer"
 
 KEYWORDS="*"
@@ -70,14 +70,15 @@ src_prepare() {
 
 src_configure() {
 	local emesonargs=(
+		-Dfts=true
 		-Dfunctional_tests=false # python2, but g-ir-merge needs py3; https://gitlab.gnome.org/GNOME/tracker/merge_requests/40
 		$(meson_use gtk-doc docs)
-		-Dman=false
-		$(meson_feature networkmanager)
-		$(meson_feature stemmer)
+		-Dman=true
+		-Dnetwork_manager=$(usex networkmanager enabled disabled)
+		-Dstemmer=$(usex stemmer enabled disabled)
 		-Dunicode_support=icu
-		-Dbash_completion_dir="$(get_bashcompdir)"
-		-Dsystemd_user_services_dir="$(systemd_get_userunitdir)"
+		-Dbash_completion="$(get_bashcompdir)"
+		-Dsystemd_user_services="$(systemd_get_userunitdir)"
 	)
 
 	meson_src_configure

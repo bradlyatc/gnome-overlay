@@ -52,6 +52,7 @@ src_configure() {
 		$(meson_use xmp)
 		$(meson_use svg librsvg)
 		$(meson_use doc gtk_doc)
+		-Dlibportal=false
 	)
 
 	meson_src_configure

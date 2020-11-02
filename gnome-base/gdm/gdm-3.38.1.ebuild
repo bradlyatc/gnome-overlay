@@ -4,7 +4,7 @@ EAPI=7
 GNOME3_LA_PUNT="yes"
 GNOME3_EAUTORECONF="yes"
 
-inherit eutils gnome3 ltprune pam readme.gentoo-r1 udev user
+inherit eutils gnome3 meson pam readme.gentoo-r1 udev user
 
 DESCRIPTION="GNOME Display Manager for managing graphical display servers and user logins"
 HOMEPAGE="https://wiki.gnome.org/Projects/GDM"
@@ -127,50 +127,46 @@ src_prepare() {
 	eapply "${FILESDIR}/${PN}-3.32.0-fingerprint-auth.patch"
 
 	# Support pam_elogind.so in gdm-launch-environment.pam
-	eapply "${FILESDIR}/${PN}-3.32.0-enable-elogind.patch"
-
+	eapply "${FILESDIR}"/elogind-meson-gdm-fix.patch
 	# Show logo when branding is enabled
 	use branding && eapply "${FILESDIR}/${PN}-3.32.0-logo.patch"
-	eapply "${FILESDIR}/${PN}-3.34.0-support-elogind.patch"
+
 	eapply "${FILESDIR}/${PN}-3.30.2-prioritize-xorg.patch"
-	eautoreconf
-	gnome3_src_prepare
+
+	eapply_user
+
+	sed -i 's/XSession.in/Xsession.in/g' data/meson.build
 }
 
 src_configure() {
-	local myconf=(
-		--enable-gdm-xsession
-		--enable-user-display-server
-		--with-run-dir=/run/gdm
-		--localstatedir="${EPREFIX}"/var
-		--disable-static
-		--with-xdmcp=yes
-		--enable-authentication-scheme=pam
-		--with-default-pam-config=exherbo
-		--with-pam-mod-dir=$(getpam_mod_dir)
-		--with-udevdir=$(get_udevdir)
-		--with-at-spi-registryd-directory="${EPREFIX}"/usr/libexec
-		--without-xevie
-		--disable-systemd-journal
-		$(use_with audit libaudit)
-		$(use_enable ipv6)
-		$(use_with plymouth)
-		$(use_with selinux)
-		$(use_with tcpd tcp-wrappers)
-		$(use_enable wayland wayland-support)
-		$(use_with xinerama)
+	local emesonargs=(
+		--localstatedir "${EPREFIX}"/var
+		-Dat-spi-registryd-dir="${EPREFIX}"/usr/libexec
+		-Ddefault-pam-config=exherbo
+		-Dlogind-provider=elogind
+		-Dsystemdsystemunitdir=no
+		-Dsystemduserunitdir=no
+		-Dgdm-xsession=true
+		-Dinitial-vt=7
+		$(meson_use ipv6)
+		$(meson_feature audit libaudit)
+		-Dpam-mod-dir=$(getpam_mod_dir)
+		$(meson_feature plymouth)
+		-Drun-dir=/run/gdm
+		$(meson_feature selinux)
+		-Dsystemd=false
+		$(meson_use tcpd tcp-wrappers)
+		-Dudev-dir=$(get_udevdir)
+		-Duser-display-server=true
+		$(meson_use wayland wayland-support)
+		-Dxdmcp=enabled
 	)
 
-	myconf+=(
-		--with-initial-vt=7 # TODO: Revisit together with startDM.sh and other xinit talks; also ignores plymouth possibility
-		SYSTEMD_CFLAGS=`pkg-config --cflags "libelogind" 2>/dev/null`
-		SYSTEMD_LIBS=`pkg-config --libs "libelogind" 2>/dev/null`
-	)
-	gnome3_src_configure "${myconf[@]}"
+	meson_src_configure
 }
 
 src_install() {
-	gnome3_src_install
+	meson_src_install
 	rm -rf ${D}/run ${D}/var/cache
 
 	if ! use accessibility ; then

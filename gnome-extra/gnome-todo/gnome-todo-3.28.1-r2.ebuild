@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit meson
+inherit gnome3 meson
 
 DESCRIPTION="Personal task manager"
 HOMEPAGE="https://wiki.gnome.org/Apps/Todo"
@@ -51,10 +51,3 @@ src_configure() {
 	meson_src_configure
 }
 
-src_compile() {
-	meson_src_compile
-}
-
-src_install() {
-	meson_src_install
-}

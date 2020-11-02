@@ -2,7 +2,7 @@
 
 EAPI=7
 
-inherit gnome3 readme.gentoo-r1 meson
+inherit gnome3 xdg-utils readme.gentoo-r1 meson
 
 DESCRIPTION="Screenshot utility for GNOME"
 HOMEPAGE="https://git.gnome.org/browse/gnome-screenshot"
@@ -41,14 +41,11 @@ src_install() {
 	readme.gentoo_create_doc
 }
 
-pkg_postinst() {
-	gnome3_pkg_postinst
-	gnome3_icon_cache_update
-	gnome3_schemas_update
+gnome3_pkg_postinst() {
+	xdg_icon_cache_update
 	readme.gentoo_print_elog
 }
 
-pkg_postrm() {
-	gnome3_icon_cache_update
-	gnome3_schemas_update
+gnome3_pkg_postrm() {
+	xdg_icon_cache_update
 }

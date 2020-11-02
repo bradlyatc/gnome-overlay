@@ -17,4 +17,3 @@ diff '--exclude=.git' -urN a/src/compositor/compositor.c b/src/compositor/compos
  #include "wayland/meta-wayland-private.h"
  #endif
  
-

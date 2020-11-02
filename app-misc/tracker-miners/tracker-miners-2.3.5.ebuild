@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=6
 PYTHON_COMPAT=( python3+ )
 
 inherit gnome3 meson python-any-r1 systemd
@@ -9,7 +9,7 @@ DESCRIPTION="Collection of data extractors for Tracker/Nepomuk"
 HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
-SLOT="${PV}/3"
+SLOT="${PV}/2"
 IUSE="cue exif ffmpeg flac gif gsf +gstreamer iptc +iso +jpeg libav +pdf +playlist raw +rss test +taglib +tiff upower +vorbis +xml xmp xps"
 
 REQUIRED_USE="cue? ( gstreamer )" # cue is currently only supported via gstreamer, not ffmpeg/libav
@@ -86,7 +86,6 @@ src_configure() {
 		-Dtracker_core=system
 
 		-Ddocs=true
-		-Dman=false
 		-Dextract=true
 		$(meson_use test functional_tests)
 		-Dminer_fs=true
@@ -100,29 +99,29 @@ src_configure() {
 		-Dtext=true
 		-Dunzip_ps_gz_files=true # spawns gunzip
 
-		$(meson_feature cue)
-		$(meson_feature exif)
-		$(meson_feature flac)
-		$(meson_feature gif)
-		$(meson_feature gsf)
-		$(meson_feature iptc)
-		$(meson_feature iso)
-		$(meson_feature jpeg)
-		$(meson_feature pdf)
-		$(meson_feature playlist)
+		-Dcue=$(usex cue enabled disabled)
+		-Dexif=$(usex exif enabled disabled)
+		-Dflac=$(usex flac enabled disabled)
+		-Dgif=$(usex gif enabled disabled)
+		-Dgsf=$(usex gsf enabled disabled)
+		-Diptc=$(usex iptc enabled disabled)
+		-Diso=$(usex iso enabled disabled)
+		-Djpeg=$(usex jpeg enabled disabled)
+		-Dpdf=$(usex pdf enabled disabled)
+		-Dplaylist=$(usex playlist enabled disabled)
 		-Dpng=enabled
-		$(meson_feature raw)
-		$(meson_feature tiff)
-		$(meson_feature vorbis)
-		$(meson_feature xml)
-		$(meson_feature xmp)
-		$(meson_feature xps)
+		-Draw=$(usex raw enabled disabled)
+		-Dtiff=$(usex tiff enabled disabled)
+		-Dvorbis=$(usex vorbis enabled disabled)
+		-Dxml=$(usex xml enabled disabled)
+		-Dxmp=$(usex xmp enabled disabled)
+		-Dxps=$(usex xps enabled disabled)
 
 		-Dbattery_detection=$(usex upower upower none)
 		-Dcharset_detection=icu # enca is a possibility, but right now we have tracker core always dep on icu and icu is preferred over enca
 		-Dgeneric_media_extractor=${media_extractor}
 		# gupnp gstreamer_backend is in bad state, upstream suggests to use discoverer, which is the default
-		-Dsystemd_user_services_dir="$(systemd_get_userunitdir)"
+		-Dsystemd_user_services="$(systemd_get_userunitdir)"
 	)
 
 	meson_src_configure
