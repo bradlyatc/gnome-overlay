@@ -1,25 +1,24 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-GNOME_ORG_MODULE="gnome-2048"
+EAPI=7
 
 inherit gnome3 vala meson
 
-DESCRIPTION="Move the tiles until you obtain the 2048 tile"
-HOMEPAGE="https://wiki.gnome.org/Apps/2048"
+DESCRIPTION="Turn off all the lights"
+HOMEPAGE="https://wiki.gnome.org/Apps/Lightsoff"
 
-LICENSE="GPL-3+"
+LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0"
 KEYWORDS="*"
 
 IUSE=""
 
 RDEPEND="
-	>=dev-libs/glib-2.62.2:2[dbus]
-	>=dev-libs/libgee-0.14:0.8
-	dev-libs/libgnome-games-support:1
-	>=media-libs/clutter-1.12:1.0
-	>=media-libs/clutter-gtk-1.6:1.0
+	>=dev-libs/glib-2.62.2:2
+	>=gnome-base/librsvg-2.32:2
+	>=media-libs/clutter-1.14:1.0
+	>=media-libs/clutter-gtk-1.5.5:1.0
+	media-libs/gsound
 	>=x11-libs/gtk+-3.24.12:3
 "
 DEPEND="${RDEPEND}
@@ -32,6 +31,6 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	gnome3_src_prepare
 	vala_src_prepare
+	gnome3_src_prepare
 }

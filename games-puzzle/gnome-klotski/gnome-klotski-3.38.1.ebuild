@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-VALA_MIN_API_VERSION="0.28"
+VALA_MIN_API_VERSION="0.44"
 
 inherit gnome3 vala meson
 
@@ -30,6 +30,6 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	gnome3_src_prepare
 	vala_src_prepare
+	gnome3_src_prepare
 }

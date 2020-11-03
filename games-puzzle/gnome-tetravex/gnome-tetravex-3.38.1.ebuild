@@ -1,24 +1,20 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+VALA_MIN_API_VERSION="0.44"
 
 inherit gnome3 vala meson
 
-DESCRIPTION="Turn off all the lights"
-HOMEPAGE="https://wiki.gnome.org/Apps/Lightsoff"
+DESCRIPTION="Complete the puzzle by matching numbered tiles"
+HOMEPAGE="https://wiki.gnome.org/Apps/Tetravex"
 
 LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0"
 KEYWORDS="*"
-
 IUSE=""
 
 RDEPEND="
 	>=dev-libs/glib-2.62.2:2
-	>=gnome-base/librsvg-2.32:2
-	>=media-libs/clutter-1.14:1.0
-	>=media-libs/clutter-gtk-1.5.5:1.0
-	media-libs/gsound
 	>=x11-libs/gtk+-3.24.12:3
 "
 DEPEND="${RDEPEND}
@@ -31,6 +27,6 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	gnome3_src_prepare
 	vala_src_prepare
+	gnome3_src_prepare
 }

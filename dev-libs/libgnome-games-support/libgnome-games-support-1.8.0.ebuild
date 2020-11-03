@@ -1,15 +1,16 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
+VALA_MIN_API_VERSION="0.40"
 
-inherit gnome2
+inherit gnome3 meson vala
 
 DESCRIPTION="Library for code common to Gnome games"
 HOMEPAGE="https://git.gnome.org/browse/libgnome-games-support/"
 
 LICENSE="LGPL-3+"
 SLOT="1/3"
-KEYWORDS="amd64 ~arm64 x86"
+KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
@@ -22,7 +23,7 @@ DEPEND="${DEPEND}
 	virtual/pkgconfig
 "
 
-src_configure() {
-	gnome2_src_configure \
-		VALAC=$(type -P true)
+src_prepare() {
+	vala_src_prepare
+	gnome3_src_prepare
 }
