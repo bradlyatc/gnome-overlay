@@ -23,7 +23,7 @@ SLOT="0"
 IUSE="accessibility audit bluetooth-sound branding fprint +introspection ipv6 plymouth selinux smartcard tcpd test wayland xinerama"
 RESTRICT="!test? ( test )"
 
-KEYWORDS=""
+KEYWORDS="*"
 
 COMMON_DEPEND="
 	app-text/iso-codes
@@ -126,16 +126,20 @@ src_prepare() {
 	# Gentoo does not have a fingerprint-auth pam stack
 	eapply "${FILESDIR}/${PN}-3.32.0-fingerprint-auth.patch"
 
+	# Patch meson.build to add elogind support
+	eapply "${FILESDIR}"/gdm-3.38.1-elogind-meson-build.patch
+
 	# Support pam_elogind.so in gdm-launch-environment.pam
-	eapply "${FILESDIR}"/elogind-meson-gdm-fix.patch
+	eapply "${FILESDIR}"/gdm-3.38.1-elogind-pam-fix.patch
+
 	# Show logo when branding is enabled
 	use branding && eapply "${FILESDIR}/${PN}-3.32.0-logo.patch"
 
+	# Have GDM start xorg over wayland
 	eapply "${FILESDIR}/${PN}-3.30.2-prioritize-xorg.patch"
 
 	eapply_user
 
-	sed -i 's/XSession.in/Xsession.in/g' data/meson.build
 }
 
 src_configure() {
@@ -148,16 +152,16 @@ src_configure() {
 		-Dsystemduserunitdir=no
 		-Dgdm-xsession=true
 		-Dinitial-vt=7
-		$(meson_use ipv6)
-		$(meson_feature audit libaudit)
 		-Dpam-mod-dir=$(getpam_mod_dir)
 		-Dplymouth=disabled
 		-Drun-dir=/run/gdm
-		$(meson_feature selinux)
-		-Dsystemd=false
-		$(meson_use tcpd tcp-wrappers)
+		-Dsystemd-journal=false
 		-Dudev-dir=$(get_udevdir)
 		-Duser-display-server=true
+		$(meson_use ipv6)
+		$(meson_feature audit libaudit)
+		$(meson_feature selinux)
+		$(meson_use tcpd tcp-wrappers)
 		$(meson_use wayland wayland-support)
 	)
 
