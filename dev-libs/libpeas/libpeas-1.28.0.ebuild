@@ -13,7 +13,7 @@ LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="doc demos +gtk glade +introspection lua +python vala"
+IUSE="doc demos +gtk glade +introspection lua +python +vala"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND="

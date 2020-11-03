@@ -2,11 +2,10 @@
 
 EAPI=7
 PYTHON_COMPAT=( python3+ )
-VALA_MIN_API_VERSION="0.26"
-
+VALA_MIN_API_VERSION="0.50"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome.org gnome2-utils meson python-single-r1 vala xdg
+inherit gnome.org gnome3-utils meson python-single-r1 vala xdg
 
 DESCRIPTION="A text editor for the GNOME desktop"
 HOMEPAGE="https://wiki.gnome.org/Apps/Gedit"
@@ -14,7 +13,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Gedit"
 LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0"
 
-IUSE="test gtk-doc spell vala"
+IUSE="test gtk-doc spell +vala"
 RESTRICT="!test? ( test )"
 
 KEYWORDS="*"
@@ -23,7 +22,7 @@ DEPEND="
 	>=dev-libs/glib-2.66:2
 	>=dev-libs/libpeas-1.14.1[gtk]
 	>=x11-libs/gtk+-3.24.0:3[introspection]
-	>=x11-libs/gtksourceview-4.0.2:4[introspection]
+	>=x11-libs/gtksourceview-4.8.0:4[introspection]
 	>=gui-libs/tepl-5.1:5
 	x11-libs/libX11
 
@@ -87,10 +86,10 @@ src_install() {
 
 pkg_postinst() {
 	xdg_pkg_postinst
-	gnome2_schemas_update
+	gnome3_schemas_update
 }
 
 pkg_postrm() {
 	xdg_pkg_postrm
-	gnome2_schemas_update
+	gnome3_schemas_update
 }

@@ -1,8 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit gnome2 vala meson
+VALA_MAX_API_VERSION="0.48"
+
+inherit gnome3 vala meson
 
 DESCRIPTION="Clear the screen by removing groups of colored and shaped tiles"
 HOMEPAGE="https://wiki.gnome.org/Apps/Swell%20Foop"
@@ -29,6 +31,6 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	gnome2_src_prepare
 	vala_src_prepare
+	gnome3_src_prepare
 }
