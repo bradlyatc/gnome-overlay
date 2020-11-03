@@ -7,9 +7,7 @@ inherit python-single-r1
 
 DESCRIPTION="Full-featured IRC connection manager for Telepathy"
 HOMEPAGE="https://cgit.freedesktop.org/telepathy/telepathy-idle"
-SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz
-	https://src.fedoraproject.org/rpms/telepathy-idle/raw/93c37581c570200c3f646d0872a9c1327d3b3cb1/f/0001-tools-Fix-errors-running-glib-ginterface-gen-under-P.patch -> ${P}-py3-1.patch
-	https://src.fedoraproject.org/rpms/telepathy-idle/raw/93c37581c570200c3f646d0872a9c1327d3b3cb1/f/0002-tools-Remove-outdated-is-unicode-checks.patch -> ${P}-py3-2.patch"
+SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
@@ -30,11 +28,6 @@ RDEPEND="
 	${PYTHON_DEPS}
 "
 DEPEND="${RDEPEND}"
-
-PATCHES=(
-	"${FILESDIR}/${P}-fixes.patch"
-	"${DISTDIR}"/${P}-py3-{1,2}.patch
-)
 
 src_prepare() {
 	default
